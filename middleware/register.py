@@ -10,19 +10,17 @@ class RegisterMiddleware(BaseMiddleware):
         event: Update,
         data: Dict[str, Any]
     ) -> Any:
-        user_object = event.message.from_user if event.message else event.callback_query.from_user if event.callback_query else event.my_chat_member.from_user if event.my_chat_member else None
-        if not user_object:
+        obj = event.message if event.message else event.callback_query if event.callback_query else event.my_chat_member if event.my_chat_member else None
+        if not obj:
             return await handler(event, data)
         
-        user_id = user_object.id
+        user_id = obj.from_user.id
+        chat_type = obj.chat.type
         user = await User.get_or_none(user_id=user_id)
         if not user:
             user = await User.create(
                 user_id=user_id,
-                defaults=dict(
-                    authorized=False,
-                    authorization_token=None
-                )
+                chat_type=chat_type
             )
 
         data['user'] = user
