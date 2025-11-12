@@ -3,11 +3,14 @@ import logging
 
 
 from core.bootstrap import bot, dispatcher
+from database.connect import Connector
 
 async def main() -> None:
     try:
+        await Connector.connect()
         await dispatcher.start_polling(bot)
     finally:
+        await Connector.disconnect()
         await bot.session.close()
 
 
