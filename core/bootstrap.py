@@ -6,7 +6,7 @@ from core.config import settings
 
 
 bot = Bot(
-    token=settings.BOT_TOKEN.get_secret_value(),
+    token=settings.TELEGRAM_BOT_TOKEN.get_secret_value(),
     default=DefaultBotProperties(
         parse_mode=ParseMode.HTML,
     )
