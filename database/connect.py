@@ -6,7 +6,7 @@ class Connector:
     async def connect():
         await Tortoise.init(
             config=dict(
-                connections=dict(default=settings.DATABASE_URL),
+                connections=dict(default=settings.DATABASE_CONNECTION_URL),
                 apps=dict(
                     models=dict(
                         models=[
@@ -17,7 +17,7 @@ class Connector:
                 )
             )
         )
-        await Tortoise.generate_schemas()
+        await Tortoise.generate_schemas(safe=True)
 
     @staticmethod
     async def disconnect():

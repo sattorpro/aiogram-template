@@ -2,6 +2,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.enums.parse_mode import ParseMode
 from aiogram.client.default import DefaultBotProperties
 from aiogram.fsm.storage.redis import RedisStorage
+from aiogram.fsm.storage.memory import MemoryStorage
 from core.config import settings
 
 
@@ -12,5 +13,6 @@ bot = Bot(
     )
 )
 
-storage = RedisStorage.from_url(settings.REDIS_CONNECTION_URL)
-dispatcher = Dispatcher(bot)
+# storage = RedisStorage.from_url(settings.REDIS_CONNECTION_URL)
+storage = MemoryStorage()
+dispatcher = Dispatcher(storage=storage)
