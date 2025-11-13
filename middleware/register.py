@@ -10,7 +10,7 @@ class RegisterMiddleware(BaseMiddleware):
         event: Update,
         data: Dict[str, Any]
     ) -> Any:
-        obj = event.message if event.message else event.callback_query if event.callback_query else event.my_chat_member if event.my_chat_member else None
+        obj = event.message if event.message else event.callback_query.message if event.callback_query else event.my_chat_member if event.my_chat_member else None
         if not obj:
             return await handler(event, data)
         
